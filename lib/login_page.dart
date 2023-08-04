@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:state_machine/home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -60,11 +59,7 @@ class _LoginPageState extends State<LoginPage> {
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const HomePage(),
-                        ));
+                    Navigator.pushNamed(context, '/home');
                   }
                 },
                 child: const Text("Register/Login"),
