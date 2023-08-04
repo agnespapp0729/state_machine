@@ -21,12 +21,12 @@ class _LoginPageState extends State<LoginPage> {
       body: Form(
         key: _formKey,
         child: Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   controller: unameController,
                   decoration: const InputDecoration(
@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   controller: passwordController,
                   obscureText: true,

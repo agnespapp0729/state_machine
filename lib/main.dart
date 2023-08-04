@@ -2,8 +2,12 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:state_machine/home_page.dart';
 import 'package:state_machine/login_page.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+  await Hive.openBox('user_box');
+
   runApp(const MyApp());
 }
 
