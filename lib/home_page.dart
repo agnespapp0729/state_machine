@@ -118,6 +118,35 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Color _selectedBgColor = Colors.white;
+
+  void _onBgColorChanged(Color? color) {
+    setState(() {
+      _selectedBgColor = color!;
+    });
+  }
+
+  DropdownButton<Color> _buildDropdownButton() {
+    return DropdownButton<Color>(
+      value: _selectedBgColor,
+      onChanged: _onBgColorChanged,
+      items: const <DropdownMenuItem<Color>>[
+        DropdownMenuItem<Color>(
+          value: Colors.white,
+          child: Text("White"),
+        ),
+        DropdownMenuItem<Color>(
+          value: Colors.blueAccent,
+          child: Text("Blue"),
+        ),
+        DropdownMenuItem<Color>(
+          value: Colors.black,
+          child: Text("Black"),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -132,36 +161,47 @@ class _HomePageState extends State<HomePage> {
                 style: TextStyle(fontSize: 30),
               ),
             )
-          : ListView.builder(
-              itemCount: _users.length,
-              itemBuilder: (_, index) {
-                final currentUser = _users[index];
-                return Card(
-                  color: Colors.orange,
-                  margin: const EdgeInsets.all(10),
-                  elevation: 3,
-                  child: ListTile(
-                    title: Text(currentUser['name']),
-                    subtitle: Text(currentUser['age'].toString()),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                            onPressed: () =>
-                                _showForm(context, currentUser['key']),
-                            icon: const Icon(Icons.edit)),
-                        IconButton(
-                            onPressed: () => _deleteUser(currentUser['key']),
-                            icon: const Icon(Icons.delete)),
-                      ],
-                    ),
-                  ),
-                );
-              }),
+          : Column(
+              children: [
+                _buildDropdownButton(),
+                Container(
+                  color: _selectedBgColor,
+                  child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: _users.length,
+                      itemBuilder: (_, index) {
+                        final currentUser = _users[index];
+                        return Card(
+                          color: Colors.orange,
+                          margin: const EdgeInsets.all(10),
+                          elevation: 3,
+                          child: ListTile(
+                            title: Text(currentUser['name']),
+                            subtitle: Text(currentUser['age'].toString()),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                    onPressed: () =>
+                                        _showForm(context, currentUser['key']),
+                                    icon: const Icon(Icons.edit)),
+                                IconButton(
+                                    onPressed: () =>
+                                        _deleteUser(currentUser['key']),
+                                    icon: const Icon(Icons.delete)),
+                              ],
+                            ),
+                          ),
+                        );
+                      }),
+                ),
+              ],
+            ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showForm(context, null),
-        child: const Icon(Icons.add),
         backgroundColor: Colors.orange,
+        child: const Icon(Icons.add),
       ),
     );
   }

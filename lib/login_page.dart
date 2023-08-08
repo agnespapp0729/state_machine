@@ -37,6 +37,7 @@ class _LoginPageState extends State<LoginPage> {
                     if (value == null || value.isEmpty) {
                       return "Enter a username!";
                     }
+                    return null;
                   },
                 ),
               ),
@@ -53,6 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                     if (value == null || value.isEmpty) {
                       return "Enter a password!";
                     }
+                    return null;
                   },
                 ),
               ),
