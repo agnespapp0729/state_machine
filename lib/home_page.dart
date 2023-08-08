@@ -91,6 +91,7 @@ class _HomePageState extends State<HomePage> {
               height: 10,
             ),
             ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
                 onPressed: () async {
                   if (key == null) {
                     _createUser({
@@ -121,6 +122,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.orange,
         title: const Text('List users'),
       ),
       body: _users.isEmpty
@@ -135,12 +137,12 @@ class _HomePageState extends State<HomePage> {
               itemBuilder: (_, index) {
                 final currentUser = _users[index];
                 return Card(
-                  color: Colors.deepOrange,
+                  color: Colors.orange,
                   margin: const EdgeInsets.all(10),
                   elevation: 3,
                   child: ListTile(
                     title: Text(currentUser['name']),
-                    subtitle: Text(currentUser['age']),
+                    subtitle: Text(currentUser['age'].toString()),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -155,11 +157,11 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 );
-              },
-            ),
+              }),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showForm(context, null),
         child: const Icon(Icons.add),
+        backgroundColor: Colors.orange,
       ),
     );
   }
