@@ -161,42 +161,44 @@ class _HomePageState extends State<HomePage> {
                 style: TextStyle(fontSize: 30),
               ),
             )
-          : Column(
-              children: [
-                _buildDropdownButton(),
-                Container(
-                  color: _selectedBgColor,
-                  child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: _users.length,
-                      itemBuilder: (_, index) {
-                        final currentUser = _users[index];
-                        return Card(
-                          color: Colors.orange,
-                          margin: const EdgeInsets.all(10),
-                          elevation: 3,
-                          child: ListTile(
-                            title: Text(currentUser['name']),
-                            subtitle: Text(currentUser['age'].toString()),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                IconButton(
-                                    onPressed: () =>
-                                        _showForm(context, currentUser['key']),
-                                    icon: const Icon(Icons.edit)),
-                                IconButton(
-                                    onPressed: () =>
-                                        _deleteUser(currentUser['key']),
-                                    icon: const Icon(Icons.delete)),
-                              ],
+          : SingleChildScrollView(
+              child: Column(
+                children: [
+                  _buildDropdownButton(),
+                  Container(
+                    color: _selectedBgColor,
+                    child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: _users.length,
+                        itemBuilder: (_, index) {
+                          final currentUser = _users[index];
+                          return Card(
+                            color: Colors.orange,
+                            margin: const EdgeInsets.all(10),
+                            elevation: 3,
+                            child: ListTile(
+                              title: Text(currentUser['name']),
+                              subtitle: Text(currentUser['age'].toString()),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                      onPressed: () => _showForm(
+                                          context, currentUser['key']),
+                                      icon: const Icon(Icons.edit)),
+                                  IconButton(
+                                      onPressed: () =>
+                                          _deleteUser(currentUser['key']),
+                                      icon: const Icon(Icons.delete)),
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      }),
-                ),
-              ],
+                          );
+                        }),
+                  ),
+                ],
+              ),
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showForm(context, null),
