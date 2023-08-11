@@ -22,10 +22,10 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   void _navigateToNewPage() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => LoginPage()),
+      MaterialPageRoute(builder: (context) => const LoginPage()),
     );
   }
 
@@ -39,27 +39,13 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Rotating Animation'),
+        title: const Text('Rotating Animation'),
       ),
       body: Center(
         child: RotationTransition(
           turns: _controller,
-          child: FlutterLogo(size: 100),
+          child: const FlutterLogo(size: 100),
         ),
-      ),
-    );
-  }
-}
-
-class NewPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('New Page'),
-      ),
-      body: Center(
-        child: Text('This is the new page.'),
       ),
     );
   }
