@@ -4,6 +4,7 @@ import 'package:state_machine/emulator_data_page.dart';
 import 'package:state_machine/home_page.dart';
 import 'package:state_machine/login_page.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:state_machine/splash_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: '/',
+      /* initialRoute: '/',
       routes: {
         '/': (context) => AnimatedSplashScreen(
               splash: 'assets/images/flutter5786.jpg',
@@ -28,8 +29,15 @@ class MyApp extends StatelessWidget {
             ),
         '/home': (context) => const HomePage(),
         '/data': (context) => const EmulatorData()
+      },*/
+      initialRoute: '/',
+      routes: {
+        '/': (context) => SplashScreen(),
+        '/login': (context) => const LoginPage(),
+        '/home': (context) => const HomePage(),
+        '/data': (context) => const EmulatorData(),
       },
-      //home: const SplashPage(),
+      //home: SplashScreen(),
     );
   }
 }

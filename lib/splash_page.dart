@@ -1,41 +1,65 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:state_machine/login_page.dart';
 
-class SplashPage extends StatefulWidget {
-  const SplashPage({super.key});
-
+class SplashScreen extends StatefulWidget {
   @override
-  State<SplashPage> createState() => _SplashPageState();
+  _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplashPageState extends State<SplashPage> {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const LoginPage(),
-        ),
-      );
-    });
+    _controller = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    );
+    _controller.repeat();
+    _navigateToNewPage();
+  }
+
+  void _navigateToNewPage() async {
+    await Future.delayed(Duration(seconds: 2));
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginPage()),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Container(
-        color: Colors.white,
-        child: Center(
-          child: Image.asset(
-            'assets/images/flutter5786.jpg',
-            width: size.width / 2,
-          ),
+      appBar: AppBar(
+        title: Text('Rotating Animation'),
+      ),
+      body: Center(
+        child: RotationTransition(
+          turns: _controller,
+          child: FlutterLogo(size: 100),
         ),
+      ),
+    );
+  }
+}
+
+class NewPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('New Page'),
+      ),
+      body: Center(
+        child: Text('This is the new page.'),
       ),
     );
   }
