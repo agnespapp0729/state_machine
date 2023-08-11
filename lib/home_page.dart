@@ -164,38 +164,51 @@ class _HomePageState extends State<HomePage> {
           : SingleChildScrollView(
               child: Column(
                 children: [
-                  _buildDropdownButton(),
-                  Container(
-                    color: _selectedBgColor,
-                    child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: _users.length,
-                        itemBuilder: (_, index) {
-                          final currentUser = _users[index];
-                          return Card(
-                            color: Colors.orange,
-                            margin: const EdgeInsets.all(10),
-                            elevation: 3,
-                            child: ListTile(
-                              title: Text(currentUser['name']),
-                              subtitle: Text(currentUser['age'].toString()),
-                              trailing: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  IconButton(
-                                      onPressed: () => _showForm(
-                                          context, currentUser['key']),
-                                      icon: const Icon(Icons.edit)),
-                                  IconButton(
-                                      onPressed: () =>
-                                          _deleteUser(currentUser['key']),
-                                      icon: const Icon(Icons.delete)),
-                                ],
-                              ),
-                            ),
-                          );
-                        }),
+                  Column(
+                    children: [
+                      _buildDropdownButton(),
+                      Container(
+                        color: _selectedBgColor,
+                        child: ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: _users.length,
+                            itemBuilder: (_, index) {
+                              final currentUser = _users[index];
+                              return Card(
+                                color: Colors.orange,
+                                margin: const EdgeInsets.all(10),
+                                elevation: 3,
+                                child: ListTile(
+                                  title: Text(currentUser['name']),
+                                  subtitle: Text(currentUser['age'].toString()),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      IconButton(
+                                          onPressed: () => _showForm(
+                                              context, currentUser['key']),
+                                          icon: const Icon(Icons.edit)),
+                                      IconButton(
+                                          onPressed: () =>
+                                              _deleteUser(currentUser['key']),
+                                          icon: const Icon(Icons.delete)),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }),
+                      ),
+                    ],
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/data');
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.orange),
+                    ),
+                    child: const Text("Get emulator data"),
                   ),
                 ],
               ),
