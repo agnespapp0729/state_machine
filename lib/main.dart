@@ -20,16 +20,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      /* initialRoute: '/',
-      routes: {
-        '/': (context) => AnimatedSplashScreen(
-              splash: 'assets/images/flutter5786.jpg',
-              nextScreen: const LoginPage(),
-              splashTransition: SplashTransition.rotationTransition,
-            ),
-        '/home': (context) => const HomePage(),
-        '/data': (context) => const EmulatorData()
-      },*/
       initialRoute: '/',
       routes: {
         '/': (context) => const SplashScreen(),
@@ -37,7 +27,6 @@ class MyApp extends StatelessWidget {
         '/home': (context) => const HomePage(),
         '/data': (context) => const EmulatorData(),
       },
-      //home: SplashScreen(),
     );
   }
 }
