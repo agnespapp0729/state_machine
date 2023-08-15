@@ -19,16 +19,23 @@ class _SplashScreenState extends State<SplashScreen>
       duration: const Duration(seconds: 2),
       vsync: this,
     );
-    _controller.repeat();
+    _controller.forward();
     _navigateToNewPage();
   }
 
   void _navigateToNewPage() async {
-    await Future.delayed(const Duration(seconds: 2));
+    /* await Future.delayed(const Duration(seconds: 2));
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => const LoginPage()),
-    );
+    );*/
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const LoginPage(),
+        ));
+      }
+    });
   }
 
   @override
