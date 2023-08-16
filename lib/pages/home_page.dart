@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:state_machine/repositories/user_repository.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -9,9 +10,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final UserRepository _userRepository;
   List<Map<String, dynamic>> _users = [];
 
-  final _userBox = Hive.box('user_box');
+  _HomePageState() : _userRepository = UserRepository(Hive.box('user_box'));
 
   @override
   void initState() {
@@ -19,34 +21,25 @@ class _HomePageState extends State<HomePage> {
     _refreshUsers();
   }
 
-  void _refreshUsers() {
-    final data = _userBox.keys.map((key) {
-      final value = _userBox.get(key);
-      return {"key": key, "name": value["name"], "age": value["age"]};
-    }).toList();
-
+  Future<void> _refreshUsers() async {
+    final data = _userRepository.getUsers();
     setState(() {
       _users = data.reversed.toList();
     });
   }
 
   Future<void> _createUser(Map<String, dynamic> newUser) async {
-    await _userBox.add(newUser);
+    await _userRepository.createUser(newUser);
     _refreshUsers();
   }
 
-  /*Future<void> _readUser(int key) async {
-    final user = _userBox.get(key);
-    return user;
-  }*/
-
   Future<void> _updateUser(int key, Map<String, dynamic> user) async {
-    await _userBox.put(key, user);
+    await _userRepository.updateUser(key, user);
     _refreshUsers();
   }
 
   Future<void> _deleteUser(int key) async {
-    await _userBox.delete(key);
+    await _userRepository.deleteUser(key);
     _refreshUsers();
   }
 
