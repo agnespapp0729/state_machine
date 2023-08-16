@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:state_machine/repositories/user_repository.dart';
+import 'package:state_machine/repositories/user_repository/user_repository_impl.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,10 +10,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final UserRepository _userRepository;
+  final UserRepositoryImpl _userRepository;
   List<Map<String, dynamic>> _users = [];
 
-  _HomePageState() : _userRepository = UserRepository(Hive.box('user_box'));
+  _HomePageState() : _userRepository = UserRepositoryImpl(Hive.box('user_box'));
 
   @override
   void initState() {
