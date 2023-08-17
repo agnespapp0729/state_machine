@@ -15,17 +15,22 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<void> createUser(Map<String, dynamic> newUser) async {
+  Future<List<Map<String, dynamic>>> createUser(
+      Map<String, dynamic> newUser) async {
     await _userBox.add(newUser);
+    return getUsers();
   }
 
   @override
-  Future<void> updateUser(int key, Map<String, dynamic> user) async {
+  Future<List<Map<String, dynamic>>> updateUser(
+      int key, Map<String, dynamic> user) async {
     await _userBox.put(key, user);
+    return getUsers();
   }
 
   @override
-  Future<void> deleteUser(int key) async {
+  Future<List<Map<String, dynamic>>> deleteUser(int key) async {
     await _userBox.delete(key);
+    return getUsers();
   }
 }
