@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
-import 'package:bloc/bloc.dart';
 import 'package:state_machine/blocs/user_bloc/user_bloc.dart';
 import 'package:state_machine/blocs/user_bloc/user_state.dart';
 import 'package:state_machine/repositories/user_repository/user_repository.dart';
@@ -14,57 +14,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  //Ez a rész kompletten megy a bloc-ba majd:::::::::::
-  /*final UserRepository _userRepository;
-  List<Map<String, dynamic>> _users = [];
 
-  _HomePageState() : _userRepository = UserRepositoryImpl(Hive.box('user_box'));
+  late UserRepository _userRepository;
+  
+  //_HomePageState() : _userRepository = UserRepositoryImpl(Hive.box('user_box'));
 
-  @override
-  void initState() {
-    super.initState();
-    _refreshUsers();
-  }
-
-   @override
-  void dispose() {
-    _nameController.dispose();
-    _ageController.dispose();
-    super.dispose();
-  }
-
-  Future<void> _refreshUsers() async {
-    final data = _userRepository.getUsers();
-    setState(() {
-      _users = data.reversed.toList();
-    });
-  }
-
-  Future<void> _createUser(Map<String, dynamic> newUser) async {
-    await _userRepository.createUser(newUser);
-    _refreshUsers();
-  }
-
-  Future<void> _updateUser(int key, Map<String, dynamic> user) async {
-    await _userRepository.updateUser(key, user);
-    _refreshUsers();
-  }
-
-  Future<void> _deleteUser(int key) async {
-    await _userRepository.deleteUser(key);
-    _refreshUsers();
-  }*/
-
-  //:::::::::::::::::::::::::::::::::::
- 
-  List<Map<String, dynamic>> _users = [];
-  late final UserBloc _userBloc;
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _ageController = TextEditingController();
+  final TextEditingController _ageController  = TextEditingController();
+
+  List<Map<String, dynamic>> actualUsers = [];
 
   @override
   void initState() {
     super.initState();
+    _userRepository = UserRepositoryImpl(Hive.box('user_box'));
   }
 
   @override
@@ -77,7 +40,7 @@ class _HomePageState extends State<HomePage> {
   void _showForm(BuildContext ctx, int? key) async {
     if (key != null) {
       final existingUser =
-          _users.firstWhere((element) => element['key'] == key);
+          actualUsers.firstWhere((element) => element['key'] == key);
       _nameController.text = existingUser['name'];
       _ageController.text = existingUser['age'];
     }
