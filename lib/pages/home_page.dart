@@ -14,6 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  //Ez a rész kompletten megy a bloc-ba majd:::::::::::
   /*final UserRepository _userRepository;
   List<Map<String, dynamic>> _users = [];
 
@@ -53,6 +54,8 @@ class _HomePageState extends State<HomePage> {
     await _userRepository.deleteUser(key);
     _refreshUsers();
   }*/
+
+  //:::::::::::::::::::::::::::::::::::
  
   List<Map<String, dynamic>> _users = [];
   late final UserBloc _userBloc;
@@ -112,12 +115,17 @@ class _HomePageState extends State<HomePage> {
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
                 onPressed: () async {
                   if (key == null) {
+                    //ide a bloc eventjét kell majd hívni valahogy így:
+                    //context.read<UserBloc>().add( CreateUserEvent(NewUser("name": _nameController.text,age": _ageController.text,)) );
                     _createUser({
                       "name": _nameController.text,
                       "age": _ageController.text
                     });
                   }
+                  
                   if (key != null) {
+                    //ide a bloc eventjét kell majd hívni valahogy így:
+                    //context.read<UserBloc>().add( CreateUserEvent(NewUser("name": _nameController.text,age": _ageController.text,)) );
                     _updateUser(key, {
                       "name": _nameController.text.trim(),
                       "age": _ageController.text.trim()
@@ -168,9 +176,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
    return BlocProvider(
-    create: (context) => UserBloc(UserState state, UserRepository userRepository),
+    create: (context) => UserBloc(UserState state, UserRepository userRepository),//itt csak a repot kell megadni, nem létrehozni, vagyis a BloC-nak itt egy bemeneti értéke lesz
+    //create: (context) => UserBloc(userRepository),
     child: Builder(
-      actions
+      actions//ez nem tudom h mi akar lenni, ide ez kell:
+      builder: (context) => //ide jön amit lent kikommneteztél,
     ),
    )
    
