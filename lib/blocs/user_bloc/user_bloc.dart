@@ -9,7 +9,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   List<Map<String, dynamic>> _userList = [];//maybe this is not necessary
 
-  UserBloc(this.userRepository) : super( InitState( userRepository.getUsers() ) ){
+  UserBloc(this.userRepository) : super( UserInitState( userRepository.getUsers() ) ){
     on<InitEvent>(_initHandler);
     on<CreateUserEvent>(_createUser);
     on<UpdateUserEvent>(_updateUser);
@@ -17,7 +17,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }
 
   void _initHandler(UserEvent event, Emitter<UserState> emit) async {
-    emit(InitState(_userList));
+    emit(UserInitState(_userList));
   }
 
   void _createUser(CreateUserEvent event, Emitter<UserState> emit) async {

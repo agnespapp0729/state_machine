@@ -1,9 +1,9 @@
 abstract class UserState {}
 
-class InitState extends UserState {
+class UserInitState extends UserState {
   final List<Map<String, dynamic>> users;
 
-  InitState(this.users);
+  UserInitState(this.users);
 
   List<Object> get props => [users];
 }
