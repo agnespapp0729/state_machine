@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:state_machine/pages/emulator_data_page.dart';
-import 'package:state_machine/pages/home_page.dart';
+import 'package:state_machine/pages/home_page/home_page.dart';
 import 'package:state_machine/pages/login_page.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:state_machine/pages/splash_page.dart';
