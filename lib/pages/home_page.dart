@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:bloc/bloc.dart';
+import 'package:state_machine/blocs/user_bloc/user_bloc.dart';
+import 'package:state_machine/blocs/user_bloc/user_state.dart';
+import 'package:state_machine/repositories/user_repository/user_repository.dart';
 import 'package:state_machine/repositories/user_repository/user_repository_impl.dart';
-
-import '../repositories/user_repository/user_repository.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,7 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final UserRepository _userRepository;
+  /*final UserRepository _userRepository;
   List<Map<String, dynamic>> _users = [];
 
   _HomePageState() : _userRepository = UserRepositoryImpl(Hive.box('user_box'));
@@ -21,6 +23,13 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _refreshUsers();
+  }
+
+   @override
+  void dispose() {
+    _nameController.dispose();
+    _ageController.dispose();
+    super.dispose();
   }
 
   Future<void> _refreshUsers() async {
@@ -43,10 +52,24 @@ class _HomePageState extends State<HomePage> {
   Future<void> _deleteUser(int key) async {
     await _userRepository.deleteUser(key);
     _refreshUsers();
-  }
-
+  }*/
+ 
+  List<Map<String, dynamic>> _users = [];
+  late final UserBloc _userBloc;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _ageController.dispose();
+    super.dispose();
+  }
 
   void _showForm(BuildContext ctx, int? key) async {
     if (key != null) {
@@ -144,7 +167,14 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+   return BlocProvider(
+    create: (context) => UserBloc(UserState state, UserRepository userRepository),
+    child: Builder(
+      actions
+    ),
+   )
+   
+    /*return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange,
         title: const Text('List users'),
@@ -213,6 +243,6 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.orange,
         child: const Icon(Icons.add),
       ),
-    );
+    );*/
   }
 }
