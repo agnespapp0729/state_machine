@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:state_machine/blocs/user_bloc/user_bloc.dart';
+import 'package:state_machine/blocs/user_bloc/user_event.dart';
 import 'package:state_machine/blocs/user_bloc/user_state.dart';
 import 'package:state_machine/repositories/user_repository/user_repository.dart';
 import 'package:state_machine/repositories/user_repository/user_repository_impl.dart';
@@ -78,21 +79,11 @@ class _HomePageState extends State<HomePage> {
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
                 onPressed: () async {
                   if (key == null) {
-                    //ide a bloc eventjét kell majd hívni valahogy így:
-                    //context.read<UserBloc>().add( CreateUserEvent(NewUser("name": _nameController.text,age": _ageController.text,)) );
-                    _createUser({
-                      "name": _nameController.text,
-                      "age": _ageController.text
-                    });
+                    context.read<UserBloc>().add( CreateUserEvent({"name": _nameController.text,"age": _ageController.text}) );
                   }
                   
                   if (key != null) {
-                    //ide a bloc eventjét kell majd hívni valahogy így:
-                    //context.read<UserBloc>().add( CreateUserEvent(NewUser("name": _nameController.text,age": _ageController.text,)) );
-                    _updateUser(key, {
-                      "name": _nameController.text.trim(),
-                      "age": _ageController.text.trim()
-                    });
+                    context.read<UserBloc>().add( UpdateUserEvent(key,{"name": _nameController.text,"age": _ageController.text}) );
                   }
                   _nameController.text = '';
                   _ageController.text = '';
@@ -139,13 +130,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
    return BlocProvider(
-    create: (context) => UserBloc(UserState state, UserRepository userRepository),//itt csak a repot kell megadni, nem létrehozni, vagyis a BloC-nak itt egy bemeneti értéke lesz
-    //create: (context) => UserBloc(userRepository),
+    create: (context) => UserBloc(_userRepository),
     child: Builder(
-      actions//ez nem tudom h mi akar lenni, ide ez kell:
-      builder: (context) => //ide jön amit lent kikommneteztél,
+      builder: (context) => Container()
     ),
-   )
+   );
    
     /*return Scaffold(
       appBar: AppBar(
