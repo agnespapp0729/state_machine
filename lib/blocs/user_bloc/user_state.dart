@@ -1,11 +1,12 @@
+import 'package:flutter/material.dart';
+
 abstract class UserState {}
 
 class UserInitState extends UserState {
   final List<Map<String, dynamic>> users;
 
   UserInitState(this.users);
-
-  List<Object> get props => [users];
+  List<Object> get props => [];
 }
 
 class UserCreatingState extends UserState {
@@ -30,4 +31,12 @@ class UserDeletingState extends UserState {
   UserDeletingState(this.users);
 
   List<Object> get props => [users];
+}
+
+class ColorChangingState extends UserState {
+  final Color color;
+
+  ColorChangingState(this.color);
+
+  List<Object> get props => [color];
 }
