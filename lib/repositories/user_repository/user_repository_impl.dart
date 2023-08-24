@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'dart:async';
-
 import 'package:hive/hive.dart';
 import 'package:state_machine/repositories/user_repository/user_repository.dart';
 

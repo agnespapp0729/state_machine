@@ -26,13 +26,13 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }
 
   void _createUser(CreateUserEvent event, Emitter<UserState> emit) async {
-    _userList = await userRepository.createUser(event.newUser);
-    emit(UserCreatingState(_userList));
+    userList = await userRepository.createUser(event.newUser);
+    emit(UserCreatingState(userList));
   }
 
   void _updateUser(UpdateUserEvent event, Emitter<UserState> emit) async {
-    _userList = await userRepository.updateUser(event.key, event.updatedUser);
-    emit(UserUpdatingState(_userList));
+    userList = await userRepository.updateUser(event.key, event.updatedUser);
+    emit(UserUpdatingState(userList));
   }
 
   void _deleteUser(DeleteUserEvent event, Emitter<UserState> emit) async {
