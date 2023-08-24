@@ -2,8 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:state_machine/blocs/user_bloc/user_event.dart';
 import 'package:state_machine/blocs/user_bloc/user_state.dart';
-
-import '../../repositories/user_repository/user_repository.dart';
+import 'package:state_machine/repositories/user_repository/user_repository.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   final UserRepository userRepository;

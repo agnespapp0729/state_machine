@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:state_machine/blocs/user_bloc/user_bloc.dart';
 import 'package:state_machine/blocs/user_bloc/user_event.dart';
+import 'package:state_machine/blocs/user_bloc/user_state.dart';
 import 'package:state_machine/pages/home_page/parts/show_form.dart';
-
-import '../../../blocs/user_bloc/user_bloc.dart';
-import '../../../blocs/user_bloc/user_state.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -18,6 +17,8 @@ class _HomeViewState extends State<HomeView> {
   void dispose() {
     super.dispose();
   }
+
+  List<Map<String, dynamic>> userList = [];
 
   Color? _selectedBgColor;
 
@@ -50,8 +51,6 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(builder: (context, state) {
-      List<Map<String, dynamic>> userList = [];
-
       if (state is UserInitState) {
         userList = state.users;
       }
