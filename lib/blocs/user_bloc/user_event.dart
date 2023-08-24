@@ -3,6 +3,13 @@ abstract class UserEvent {}
 class RefreshUserEvent extends UserEvent {
   List<Object> get props => [];
 }
+class InitEvent extends UserEvent {
+  final List<Map<String, dynamic>>? newUser;
+
+  InitEvent(this.newUser);
+
+  List<Object> get props => [];
+}
 
 class CreateUserEvent extends UserEvent {
   final Map<String, dynamic> newUser;
