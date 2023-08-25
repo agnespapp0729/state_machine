@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:state_machine/blocs/user_bloc/user_bloc.dart';
 import 'package:state_machine/blocs/user_bloc/user_event.dart';
 import 'package:state_machine/blocs/user_bloc/user_state.dart';
+import 'package:state_machine/pages/home_page/parts/bg_color_change.dart';
 import 'package:state_machine/pages/home_page/parts/show_form.dart';
 
 class HomeView extends StatefulWidget {
@@ -21,32 +22,6 @@ class _HomeViewState extends State<HomeView> {
   List<Map<String, dynamic>> userList = [];
 
   Color? _selectedBgColor;
-
-  void _onBgColorChanged(Color? color) {
-    _selectedBgColor = color!;
-    context.read<UserBloc>().add(ChangeColorEvent(_selectedBgColor!));
-  }
-
-  DropdownButton<Color> _buildDropdownButton() {
-    return DropdownButton<Color>(
-      value: _selectedBgColor,
-      onChanged: _onBgColorChanged,
-      items: const <DropdownMenuItem<Color>>[
-        DropdownMenuItem<Color>(
-          value: Colors.white,
-          child: Text("White"),
-        ),
-        DropdownMenuItem<Color>(
-          value: Colors.blueAccent,
-          child: Text("Blue"),
-        ),
-        DropdownMenuItem<Color>(
-          value: Colors.black,
-          child: Text("Black"),
-        ),
-      ],
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +61,7 @@ class _HomeViewState extends State<HomeView> {
             children: [
               Column(
                 children: [
-                  _buildDropdownButton(),
+                  const BgColorChange(),
                   Container(
                     color: _selectedBgColor,
                     child: ListView.builder(

@@ -28,7 +28,7 @@ class UpdateUserEvent extends UserEvent {
 
   UpdateUserEvent(this.key, this.updatedUser);
 
-  List<Object> get props => [];
+  List<Object> get props => [updatedUser];
 }
 
 class DeleteUserEvent extends UserEvent {
@@ -36,7 +36,7 @@ class DeleteUserEvent extends UserEvent {
 
   DeleteUserEvent(this.key);
 
-  List<Object> get props => [];
+  List<Object> get props => [key];
 }
 
 class ChangeColorEvent extends UserEvent {
