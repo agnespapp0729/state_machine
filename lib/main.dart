@@ -4,12 +4,15 @@ import 'package:state_machine/pages/home_page/home_page.dart';
 import 'package:state_machine/pages/login_page.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:state_machine/pages/splash_page.dart';
+import 'package:state_machine/model/user_model/users.dart';
 
-void main() async {
+late Box box;
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  await Hive.openBox('user_box');
-
+  box = await Hive.openBox('user_box');
+  Hive.registerAdapter(UsersAdapter());
+  //box.put('user', Users(name: "David", age: 33));
   runApp(const MyApp());
 }
 

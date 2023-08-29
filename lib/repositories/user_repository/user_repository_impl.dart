@@ -1,10 +1,13 @@
 import 'dart:async';
 
 import 'package:hive/hive.dart';
+import 'package:state_machine/main.dart';
+import 'package:state_machine/model/user_model/users.dart';
 import 'package:state_machine/repositories/user_repository/user_repository.dart';
 
 class UserRepositoryImpl extends UserRepository {
   final Box _userBox;
+  Users users = box.get('user');
 
   UserRepositoryImpl(this._userBox);
 
@@ -27,7 +30,6 @@ class UserRepositoryImpl extends UserRepository {
       Map<String, dynamic> newUser) async {
     await _userBox.add(newUser);
     usersStream.add(getUsers());
-    usersStream.add(getUsers());
     return getUsers();
   }
 
@@ -36,14 +38,12 @@ class UserRepositoryImpl extends UserRepository {
       int key, Map<String, dynamic> user) async {
     await _userBox.put(key, user);
     usersStream.add(getUsers());
-    usersStream.add(getUsers());
     return getUsers();
   }
 
   @override
   Future<List<Map<String, dynamic>>> deleteUser(int key) async {
     await _userBox.delete(key);
-    usersStream.add(getUsers());
     usersStream.add(getUsers());
     return getUsers();
   }
