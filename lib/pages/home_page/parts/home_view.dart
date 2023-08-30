@@ -19,7 +19,7 @@ class _HomeViewState extends State<HomeView> {
     super.dispose();
   }
 
-  List<Map<String, dynamic>> userList = [];
+  List<Map<String, dynamic>>? userList = [];
 
   Color? _selectedBgColor;
 
@@ -67,33 +67,36 @@ class _HomeViewState extends State<HomeView> {
                     child: ListView.builder(
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
-                        itemCount: userList.length,
+                        itemCount: userList?.length??0,
                         itemBuilder: (context, index) {
-                          final currentUser = userList[index];
+                          final currentUser = userList?[index];
 
                           return Card(
                             color: Colors.orange,
                             margin: const EdgeInsets.all(10),
                             elevation: 3,
                             child: ListTile(
-                              title: Text(currentUser['name']),
-                              subtitle: Text(currentUser['age'].toString()),
+                              title: Text(currentUser?['name']),
+                              subtitle: Text(currentUser!['age'].toString()),
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  IconButton(
+                                  if(userList != null)...[
+                                    IconButton(
                                       onPressed: () => ShowFormEmbedder(
                                           bloc: context.read<UserBloc>(),
-                                          userKey: currentUser['key'],
-                                          actualUsers: userList)
+                                          userKey: currentUser!['key'],
+                                          actualUsers: userList!)
                                         ..showForm(context),
                                       icon: const Icon(Icons.edit)),
                                   IconButton(
                                       onPressed: () => context
                                           .read<UserBloc>()
                                           .add(DeleteUserEvent(
-                                              currentUser['key'])),
+                                              currentUser!['key'])),
                                       icon: const Icon(Icons.delete)),
+                                  ]
+                                  
                                 ],
                               ),
                             ),
