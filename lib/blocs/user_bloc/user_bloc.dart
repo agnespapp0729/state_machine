@@ -20,7 +20,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }
 
   void _initHandler(UserEvent event, Emitter<UserState> emit) async {
-    userList = await userRepository.getUsers();
+    userList = userRepository.getUsers();
     emit(UserInitState(users: userList));
   }
 
