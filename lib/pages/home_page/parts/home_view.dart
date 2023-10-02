@@ -19,7 +19,7 @@ class _HomeViewState extends State<HomeView> {
 
   List<Map<String, dynamic>>? userList = [];
 
-  Color? _selectedBgColor;
+  Color? selectedBgColor;
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +33,14 @@ class _HomeViewState extends State<HomeView> {
       if (state is UserCreatingState) {
         userList = state.users;
       }
-      if (state is UserCreatingState) {
+      if (state is UserDeletingState) {
         userList = state.users;
       }
       if (state is ColorChangingState) {
-        _selectedBgColor = state.color;
+        selectedBgColor = state.color;
       }
 
-      return const BuildScaffold();
+      return BuildScaffold(userList, selectedBgColor);
     });
   }
 }

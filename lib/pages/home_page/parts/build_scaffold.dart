@@ -5,17 +5,19 @@ import 'package:state_machine/pages/home_page/parts/list_user.dart';
 import 'package:state_machine/pages/home_page/parts/show_form.dart';
 
 class BuildScaffold extends StatefulWidget {
-  const BuildScaffold({super.key});
+  final List<Map<String, dynamic>>? userList;
+  final Color? selectedBgColor;
+  const BuildScaffold(
+    this.userList,
+    this.selectedBgColor, {
+    super.key,
+  });
 
   @override
   State<BuildScaffold> createState() => _BuildScaffoldState();
 }
 
 class _BuildScaffoldState extends State<BuildScaffold> {
-  List<Map<String, dynamic>>? userList = [];
-
-  Color? _selectedBgColor;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +37,7 @@ class _BuildScaffoldState extends State<BuildScaffold> {
       onPressed: () {
         ShowFormEmbedder(
           userKey: null,
-          actualUsers: userList,
+          actualUsers: widget.userList,
           bloc: context.read<UserBloc>(),
         ).showForm(context);
       },
@@ -46,7 +48,9 @@ class _BuildScaffoldState extends State<BuildScaffold> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          ListUsers(userList: userList, selectedBgColor: _selectedBgColor),
+          ListUsers(
+              userList: widget.userList,
+              selectedBgColor: widget.selectedBgColor),
           ElevatedButton(
             onPressed: () {
               Navigator.pushNamed(context, '/data');
