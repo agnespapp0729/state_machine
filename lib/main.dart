@@ -6,13 +6,13 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:state_machine/pages/splash_page.dart';
 import 'package:state_machine/model/user_model/users.dart';
 
-late Box box;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Hive.initFlutter();
-  box = await Hive.openBox('user_box');
   Hive.registerAdapter(UsersAdapter());
-  //box.put('user', Users(name: "David", age: 33));
+  await Hive.openBox('user_box');
+
   runApp(const MyApp());
 }
 

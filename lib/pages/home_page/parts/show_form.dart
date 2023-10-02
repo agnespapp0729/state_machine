@@ -4,7 +4,7 @@ import 'package:state_machine/blocs/user_bloc/user_event.dart';
 
 class ShowFormEmbedder {
   final dynamic userKey;
-  final List<Map<String, dynamic>> actualUsers;
+  final List<Map<String, dynamic>>? actualUsers;
   final Bloc bloc;
 
   ShowFormEmbedder(
@@ -15,10 +15,10 @@ class ShowFormEmbedder {
 
   void showForm(BuildContext context) async {
     if (userKey != null) {
-      final Map<String, dynamic> existingUser =
-          actualUsers.firstWhere((element) => element['key'] == userKey);
-      _nameController.text = existingUser['name'];
-      _ageController.text = existingUser['age'];
+      final Map<String, dynamic>? existingUser =
+          actualUsers?.firstWhere((element) => element['key'] == userKey);
+      _nameController.text = existingUser?['name'];
+      _ageController.text = existingUser?['age'];
     }
 
     showModalBottomSheet(
@@ -55,7 +55,7 @@ class ShowFormEmbedder {
                 onPressed: () async {
                   if (userKey == null) {
                     bloc.add(CreateUserEvent({
-                      "name": _nameController.value,
+                      "name": _nameController.text,
                       "age": _ageController.text
                     }));
                   }

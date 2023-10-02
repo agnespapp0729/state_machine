@@ -8,10 +8,10 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   final UserRepository userRepository;
   Color? color;
 
-  List<Map<String, dynamic>> userList = [];
+  List<Map<String, dynamic>>? userList = [];
 
   UserBloc(this.userRepository)
-      : super(UserInitState(userRepository.getUsers())) {
+      : super(UserInitState(users: userRepository.getUsers())) {
     userRepository.getUsersStream.listen((event) => add(InitEvent(event)));
     on<InitEvent>(_initHandler);
     on<CreateUserEvent>(_createUser);
@@ -21,22 +21,23 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }
 
   void _initHandler(UserEvent event, Emitter<UserState> emit) async {
-    emit(UserInitState(userList));
+    userList = userRepository.getUsers();
+    emit(UserInitState(users: userList));
   }
 
   void _createUser(CreateUserEvent event, Emitter<UserState> emit) async {
-    userList = await userRepository.createUser(event.newUser);
-    emit(UserCreatingState(userList));
+    userList = (await userRepository.createUser(event.newUser));
+    emit(UserCreatingState(userList!));
   }
 
   void _updateUser(UpdateUserEvent event, Emitter<UserState> emit) async {
-    userList = await userRepository.updateUser(event.key, event.updatedUser);
-    emit(UserUpdatingState(userList));
+    userList = (await userRepository.updateUser(event.key, event.updatedUser));
+    emit(UserUpdatingState(userList!));
   }
 
   void _deleteUser(DeleteUserEvent event, Emitter<UserState> emit) async {
-    final userList = await userRepository.deleteUser(event.key);
-    emit(UserDeletingState(userList));
+    userList = await userRepository.deleteUser(event.key);
+    emit(UserDeletingState(userList!));
   }
 
   void _changingColor(ChangeColorEvent event, Emitter<UserState> emit) async {
