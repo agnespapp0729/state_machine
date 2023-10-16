@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:state_machine/di/locator.dart';
 import 'package:state_machine/pages/emulator_data_page.dart';
 import 'package:state_machine/pages/home_page/home_page.dart';
 import 'package:state_machine/pages/login_page.dart';
@@ -12,6 +14,8 @@ Future<void> main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(UsersAdapter());
   await Hive.openBox('user_box');
+
+  setupLocator();
 
   runApp(const MyApp());
 }
