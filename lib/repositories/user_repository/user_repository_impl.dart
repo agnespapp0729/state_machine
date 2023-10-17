@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:injectable/injectable.dart';
 import 'package:state_machine/model/user_model/users.dart';
 import 'package:state_machine/repositories/user_repository/user_repository.dart';
 
+@Injectable(as: UserRepository)
 class UserRepositoryImpl extends UserRepository {
   late Box? userBox;
   late Users? users;
@@ -16,12 +18,18 @@ class UserRepositoryImpl extends UserRepository {
   void _init() async {
     userBox = Hive.box('user_box');
     users = await userBox!.get('user');
+
+    //Maybe not realy need because it is a broadcast stream.
+    //The basic stream need it
+    usersStreamController.onCancel = () async {
+      await usersStreamController.close();
+    };
   }
 
-  StreamController<List<Map<String, dynamic>>> usersStream = StreamController();
+  StreamController<List<Map<String, dynamic>>> usersStreamController = StreamController<List<Map<String, dynamic>>>.broadcast();
 
   @override
-  Stream get getUsersStream => usersStream.stream;
+  Stream<List<Map<String, dynamic>>> get getUsersStream => usersStreamController.stream;
 
   @override
   List<Map<String, dynamic>>? getUsers() {
@@ -36,7 +44,7 @@ class UserRepositoryImpl extends UserRepository {
   Future<List<Map<String, dynamic>>> createUser(
       Map<String, dynamic> newUser) async {
     await userBox!.add(newUser);
-    usersStream.add(getUsers()!);
+    usersStreamController.add(getUsers()!);
     return getUsers()!;
   }
 
@@ -44,7 +52,7 @@ class UserRepositoryImpl extends UserRepository {
   Future<List<Map<String, dynamic>>> updateUser(
       int key, Map<String, dynamic> user) async {
     await userBox!.put(key, user);
-    usersStream.add(getUsers()!);
+    usersStreamController.add(getUsers()!);
     return getUsers()!;
   }
 
@@ -55,7 +63,7 @@ class UserRepositoryImpl extends UserRepository {
       return Future.value(null);
     }
     final users = getUsers()!;
-    usersStream.add(users);
+    usersStreamController.add(users);
     return users;
   }
 }

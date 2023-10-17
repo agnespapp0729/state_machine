@@ -6,7 +6,7 @@ class UserInitState extends UserState {
   final List<Map<String, dynamic>>? users;
 
   UserInitState({this.users});
-  List<Object> get props => [];
+  List<Object> get props => [users!];
 }
 
 class UserCreatingState extends UserState {
