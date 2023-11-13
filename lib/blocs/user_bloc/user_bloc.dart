@@ -1,18 +1,37 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:state_machine/blocs/user_bloc/user_event.dart';
 import 'package:state_machine/blocs/user_bloc/user_state.dart';
+import 'package:state_machine/repositories/color_repository/color_repository.dart';
 import 'package:state_machine/repositories/user_repository/user_repository.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   final UserRepository userRepository;
+  final ColorRepository colorRepository;
+
   Color? color;
 
   List<Map<String, dynamic>>? userList = [];
 
-  UserBloc(this.userRepository)
+  late StreamSubscription<List<Map<String, dynamic>>>? userStreamSubscription;
+  late StreamSubscription<Color>? colorStreamSubscription;
+
+  @override
+  Future<void> close() async {
+    await userStreamSubscription?.cancel();
+    userStreamSubscription = null;
+    super.close();
+  }
+
+  UserBloc(this.userRepository, this.colorRepository)
       : super(UserInitState(users: userRepository.getUsers())) {
-    userRepository.getUsersStream.listen((event) => add(InitEvent(event)));
+    userStreamSubscription = userRepository.getUsersStream.listen((event) {
+      add(InitEvent(event));
+    });
+    colorStreamSubscription = colorRepository.getColorStream.listen((event) {});
+
     on<InitEvent>(_initHandler);
     on<CreateUserEvent>(_createUser);
     on<UpdateUserEvent>(_updateUser);
@@ -26,22 +45,18 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }
 
   void _createUser(CreateUserEvent event, Emitter<UserState> emit) async {
-    userList = (await userRepository.createUser(event.newUser));
-    emit(UserCreatingState(userList!));
+    userRepository.createUser(event.newUser);
   }
 
   void _updateUser(UpdateUserEvent event, Emitter<UserState> emit) async {
-    userList = (await userRepository.updateUser(event.key, event.updatedUser));
-    emit(UserUpdatingState(userList!));
+    userRepository.updateUser(event.key, event.updatedUser);
   }
 
   void _deleteUser(DeleteUserEvent event, Emitter<UserState> emit) async {
-    userList = await userRepository.deleteUser(event.key);
-    emit(UserDeletingState(userList!));
+    userRepository.deleteUser(event.key);
   }
 
   void _changingColor(ChangeColorEvent event, Emitter<UserState> emit) async {
-    color = event.color;
-    emit(ColorChangingState(color!));
+    colorRepository.setColor(event.color);
   }
 }

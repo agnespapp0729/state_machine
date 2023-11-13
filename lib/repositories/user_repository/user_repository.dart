@@ -5,5 +5,5 @@ abstract class UserRepository {
       int key, Map<String, dynamic> user);
   Future<List<Map<String, dynamic>>?>? deleteUser(int key);
 
-  Stream get getUsersStream;
+  Stream<List<Map<String, dynamic>>> get getUsersStream;
 }
