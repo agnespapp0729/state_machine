@@ -14,8 +14,10 @@ class _BgColorChangeState extends State<BgColorChange> {
   Color? _selectedBgColor;
 
   void _onBgColorChanged(Color? color) {
-    _selectedBgColor = color!;
-    context.read<UserBloc>().add(ChangeColorEvent(_selectedBgColor!));
+    setState(() {
+      _selectedBgColor = color!;
+      context.read<UserBloc>().add(ChangeColorEventRequestedByUser(_selectedBgColor!));
+    });
   }
 
   @override

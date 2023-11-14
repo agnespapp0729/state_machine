@@ -21,7 +21,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   @override
   Future<void> close() async {
     await userStreamSubscription?.cancel();
-    userStreamSubscription = null;
+    await colorStreamSubscription?.cancel();
+    userStreamSubscription  = null;
+    colorStreamSubscription = null;
     super.close();
   }
 
@@ -30,13 +32,18 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     userStreamSubscription = userRepository.getUsersStream.listen((event) {
       add(InitEvent(event));
     });
-    colorStreamSubscription = colorRepository.getColorStream.listen((event) {});
+
+    colorStreamSubscription = colorRepository.getColorStream.listen((event) {
+      add(ChangeColorEventChangedFromStream(event));
+    });
 
     on<InitEvent>(_initHandler);
     on<CreateUserEvent>(_createUser);
     on<UpdateUserEvent>(_updateUser);
     on<DeleteUserEvent>(_deleteUser);
-    on<ChangeColorEvent>(_changingColor);
+
+    on<ChangeColorEventRequestedByUser>(_changingColorByUser);
+    on<ChangeColorEventChangedFromStream>(_changingColorFromStream);
   }
 
   void _initHandler(UserEvent event, Emitter<UserState> emit) async {
@@ -56,7 +63,17 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     userRepository.deleteUser(event.key);
   }
 
-  void _changingColor(ChangeColorEvent event, Emitter<UserState> emit) async {
+  void _changingColorByUser(ChangeColorEventRequestedByUser event, Emitter<UserState> emit) async {
     colorRepository.setColor(event.color);
+    // emit(ColorChangingState(event.color)); -->
+    // jelen esetben ez mehetne ide is és akkor nem kell külön event, viszont elképzelhető, hogy így loop-ba kerülne a rendszer=kifagy.
+    // viszont ha ez remote lenne akk az aszonkronitás miatt már biztosan szükség lenne egy külön esemény kezelőre.-->(*)
+  }
+  // (*)--> Ezért hoztam létre egy stream event kezelőt a user igény kezelő mellé,
+  // így nem kell await-et használni és egy event-be kezelni az aszinkron változást.
+  // Vagyis kvázi nem vár a program a stream válaszára folyamatosan, 
+  // hanem mikor az értéket kap, szól és akkor kezeli le a bloc.
+  void _changingColorFromStream(ChangeColorEventChangedFromStream event, Emitter<UserState> emit) async {
+    emit(ColorChangingState(event.color));
   }
 }

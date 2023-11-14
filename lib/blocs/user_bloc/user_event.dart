@@ -39,10 +39,17 @@ class DeleteUserEvent extends UserEvent {
   List<Object> get props => [];
 }
 
-class ChangeColorEvent extends UserEvent {
+class ChangeColorEventRequestedByUser extends UserEvent {
   final Color color;
 
-  ChangeColorEvent(this.color);
+  ChangeColorEventRequestedByUser(this.color);
+
+  List<Object> get props => [color];
+}
+class ChangeColorEventChangedFromStream extends UserEvent {
+  final Color color;
+
+  ChangeColorEventChangedFromStream(this.color);
 
   List<Object> get props => [color];
 }
