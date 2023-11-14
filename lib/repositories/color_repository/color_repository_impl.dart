@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:state_machine/repositories/color_repository/color_repository.dart';
 
@@ -12,6 +13,7 @@ class ColorRepositoryImpl extends ColorRepository {
 
   @override
   void setColor(Color color) {
+    color = color;
     colorStreamControll.add(color);
   }
 

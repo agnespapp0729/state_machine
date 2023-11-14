@@ -30,13 +30,16 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     userStreamSubscription = userRepository.getUsersStream.listen((event) {
       add(InitEvent(event));
     });
-    colorStreamSubscription = colorRepository.getColorStream.listen((event) {});
+    colorStreamSubscription = colorRepository.getColorStream.listen((event) {
+      add(ChangeColorEventChangedFromStream(event));
+    });
 
     on<InitEvent>(_initHandler);
     on<CreateUserEvent>(_createUser);
     on<UpdateUserEvent>(_updateUser);
     on<DeleteUserEvent>(_deleteUser);
-    on<ChangeColorEvent>(_changingColor);
+    on<ChangeColorEventRequestedByUser>(_changingColorByUser);
+    on<ChangeColorEventChangedFromStream>(_changingColorFromStream);
   }
 
   void _initHandler(UserEvent event, Emitter<UserState> emit) async {
@@ -56,7 +59,13 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     userRepository.deleteUser(event.key);
   }
 
-  void _changingColor(ChangeColorEvent event, Emitter<UserState> emit) async {
+  void _changingColorByUser(
+      ChangeColorEventRequestedByUser event, Emitter<UserState> emit) async {
     colorRepository.setColor(event.color);
+  }
+
+  void _changingColorFromStream(
+      ChangeColorEventChangedFromStream event, Emitter<UserState> emit) async {
+    emit(ColorChangingState(event.color));
   }
 }
