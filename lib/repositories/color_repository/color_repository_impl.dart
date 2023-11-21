@@ -13,7 +13,6 @@ class ColorRepositoryImpl extends ColorRepository {
 
   @override
   void setColor(Color color) {
-    color = color;
     colorStreamControll.add(color);
   }
 

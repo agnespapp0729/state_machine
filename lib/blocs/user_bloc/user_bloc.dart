@@ -21,7 +21,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   @override
   Future<void> close() async {
     await userStreamSubscription?.cancel();
+    await colorStreamSubscription?.cancel();
     userStreamSubscription = null;
+    colorStreamSubscription = null;
     super.close();
   }
 
@@ -38,6 +40,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<CreateUserEvent>(_createUser);
     on<UpdateUserEvent>(_updateUser);
     on<DeleteUserEvent>(_deleteUser);
+
     on<ChangeColorEventRequestedByUser>(_changingColorByUser);
     on<ChangeColorEventChangedFromStream>(_changingColorFromStream);
   }
