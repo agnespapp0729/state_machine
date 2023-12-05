@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-abstract class UserEvent {}
+@freezed
+class UserEvent {}
 
 class RefreshUserEvent extends UserEvent {
   List<Object> get props => [];

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-abstract class UserState {}
+@freezed
+class UserState {}
 
 class UserInitState extends UserState {
   final List<Map<String, dynamic>>? users;
