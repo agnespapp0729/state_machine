@@ -2,10 +2,13 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:state_machine/blocs/user_bloc/user_event.dart';
-import 'package:state_machine/blocs/user_bloc/user_state.dart';
 import 'package:state_machine/repositories/color_repository/color_repository.dart';
 import 'package:state_machine/repositories/user_repository/user_repository.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'user_event.dart';
+part 'user_state.dart';
+part 'user_bloc.freezed.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   final UserRepository userRepository;
