@@ -10,5 +10,5 @@ class UserState with _$UserState {
       UserUpdatingState;
   const factory UserState.delete(List<Map<String, dynamic>> users) =
       UserDeletingState;
-  const factory UserState.colorChange(Color Color) = ColorChangingState;
+  const factory UserState.colorChange(Color color) = ColorChangingState;
 }

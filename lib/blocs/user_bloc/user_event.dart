@@ -9,8 +9,8 @@ class UserEvent with _$UserEvent {
   const factory UserEvent.update(int key, Map<String, dynamic> updatedUser) =
       UpdateUserEvent;
   const factory UserEvent.delete(int key) = DeleteUserEvent;
-  const factory UserEvent.colorChangeByUser(Color Color) =
+  const factory UserEvent.colorChangeByUser(Color color) =
       ChangeColorEventRequestedByUser;
-  const factory UserEvent.colorChangeFromStream(Color Color) =
+  const factory UserEvent.colorChangeFromStream(Color color) =
       ChangeColorEventChangedFromStream;
 }
